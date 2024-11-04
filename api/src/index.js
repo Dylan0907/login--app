@@ -1,10 +1,17 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
+
+app.use(
+  cors({
+    origin: "http://127.0.0.1:5500"
+  })
+);
 
 let users = [];
 
@@ -20,6 +27,7 @@ app.post("/signup", (req, res) => {
   // Create a new user
   const newUser = { email, password };
   users.push(newUser);
+  console.log(users);
   res.status(201).json({ message: "User created successfully" });
 });
 
