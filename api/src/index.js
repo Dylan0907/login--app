@@ -7,7 +7,7 @@ const PORT = 3000;
 app.use(bodyParser.json());
 
 let users = [];
-console.log("esto es un test");
+
 app.post("/signup", (req, res) => {
   const { email, password } = req.body;
 
