@@ -1,40 +1,73 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    justify-content: center;   
+    align-items: center; 
     background-color: #f4f4f4;
+    height: 100vh;
 }
 
 .container {
     background: white;
-    padding: 20px;
+    padding: 2em;
+    width:80%;
+    margin: 0 auto;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1.3em;
+}
+
 input {
     display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    width: 100%;    
+}
+
+.inputs{
+    margin-bottom: 2em;
 }
 
 button {
     width: 100%;
-    padding: 10px;
+    padding:1em;
+    margin-bottom: 1.6em;
     background: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 1rem;
 }
 
 button:hover {
+    cursor:pointer;
     background: #0056b3;
 }
 
 #message {
     margin-top: 10px;
     color: red;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 40%;
+    }
+
+    .buttons{
+        display: flex;
+        flex-direction: row;
+    }
+
+    button + button {
+        margin-left: 1em;
+    }
 }
