@@ -39,7 +39,7 @@ input {
 
 button {
     width: 100%;
-    padding:1em;
+    padding:0.9em;
     margin-bottom: 1.6em;
     background: #007bff;
     color: white;
@@ -53,8 +53,9 @@ button:hover {
 }
 
 #message {
-    margin-top: 10px;
+    margin-top: 1em;
     color: red;
+    overflow-x: auto;
 }
 
 @media (min-width: 768px) {
