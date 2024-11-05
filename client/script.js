@@ -30,7 +30,6 @@ document.getElementById("sign-btn").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   const messageElement = document.getElementById("message");
-  console.log(JSON.stringify({ email, password }));
   try {
     // Intentar hacer login
     let response = await fetch("http://localhost:3000/signup", {
