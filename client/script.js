@@ -17,7 +17,7 @@ document.getElementById("login-btn").addEventListener("click", async () => {
     if (response.ok) {
       messageElement.innerText = "Login successful! Token: " + data.token;
     } else {
-      messageElement.innerText = "An error occured during login";
+      messageElement.innerText = "email or password incorrect";
     }
   } catch (error) {
     console.error("Error:", error);

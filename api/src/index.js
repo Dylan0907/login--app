@@ -1,9 +1,24 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const app = express();
-const PORT = 3000;
+const mongoose = require("mongoose");
+const PORT = process.env.PORT;
+const User = require("./models/User");
+const bcrypt = require("bcrypt");
+
+mongoose.connect(process.env.MONGODB_URI);
+const database = mongoose.connection;
+
+database.on("error", (error) => {
+  console.log(error);
+});
+
+database.once("connected", () => {
+  console.log("Database Connected");
+});
 
 app.use(bodyParser.json());
 
@@ -13,35 +28,36 @@ app.use(
   })
 );
 
-let users = [];
-
-app.post("/signup", (req, res) => {
+app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
 
-  // Check if the user already exists
-  const existingUser = users.find((user) => user.email === email);
+  if (email.length === 0 || password.length === 0) {
+    return res.status(400).json({ message: "Complete all fields" });
+  }
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(400).json({ message: "User already exists" });
   }
 
   // Create a new user
-  const newUser = { email, password };
-  users.push(newUser);
-  console.log(users);
+  const user = new User({ email, password });
+  await user.save();
+
   res.status(201).json({ message: "User created successfully" });
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  // Check if the user exists
-  let user = users.find((user) => user.email === email);
+  const user = await User.findOne({ email });
   if (!user) {
-    //user doesnt exist
-    user = { email, password };
-    users.push(user);
-    return res.status(200).json({ message: "User created successfully" });
-  } else if (user.password !== password) {
+    return res.status(400).json({ message: "Invalid email or password" });
+  }
+
+  // Compare provided password with stored hashed password
+  const isMatch = await bcrypt.compare(password, user.password);
+  console.log({ isMatch, user });
+  if (!isMatch) {
     return res.status(400).json({ message: "Invalid email or password" });
   }
 
