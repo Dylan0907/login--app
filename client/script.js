@@ -5,7 +5,7 @@ document.getElementById("login-btn").addEventListener("click", async () => {
   const messageElement = document.getElementById("message");
   try {
     // Intentar hacer login
-    let response = await fetch("http://localhost:3000/login", {
+    let response = await fetch("http://localhost:3000/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -32,7 +32,7 @@ document.getElementById("sign-btn").addEventListener("click", async () => {
   const messageElement = document.getElementById("message");
   try {
     // Intentar hacer login
-    let response = await fetch("http://localhost:3000/signup", {
+    let response = await fetch("http://localhost:3000/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

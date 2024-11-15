@@ -3,23 +3,23 @@ const jwt = require("jsonwebtoken");
 
 const userService = require("../services/userService");
 
+// Create a new user
 const createUser = async (req, res) => {
   const { email, password } = req.body;
-
   if (email.length === 0 || password.length === 0) {
     return res.status(400).json({ message: "Complete all fields" });
   }
-  const existingUser = userService.findUser(email);
+  const existingUser = await userService.findUser(email);
   if (existingUser) {
     return res.status(400).json({ message: "User already exists" });
   }
 
-  // Create a new user
-  const newUser = await userService(email, password);
+  const newUser = await userService.createUser(email, password);
 
   res.status(201).json({ message: "User created successfully", data: newUser });
 };
 
+//Find user
 const findUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -39,7 +39,26 @@ const findUser = async (req, res) => {
   res.status(200).json({ token });
 };
 
+//Delete user by email
+const deleteUser = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const deletedUser = await userService.deleteUser(email);
+    if (!deletedUser) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    res
+      .status(200)
+      .json({ message: "User deleted succesfully", user: deletedUser });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error deleting user", error: error.message });
+  }
+};
+
 module.exports = {
   createUser,
-  findUser
+  findUser,
+  deleteUser
 };
