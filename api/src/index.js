@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT;
 
 const userRouter = require("./routes/userRoute");
-const messagesRouter = require(".routes/messageRoute");
+const messagesRouter = require("./routes/messagesRoute");
 
 mongoose.connect(process.env.MONGODB_URI);
 const database = mongoose.connection;
