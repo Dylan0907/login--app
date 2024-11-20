@@ -1,6 +1,6 @@
 const messagesService = require("../services/messagesService");
 
-//create new message
+//create new message between two users
 const postMessage = async (req, res) => {
   try {
     const { sender, recipient, content, attachments } = req.body;
@@ -17,6 +17,19 @@ const postMessage = async (req, res) => {
   }
 };
 
+//get messages between two users
+const fetchMessages = async (req, res) => {
+  try {
+    const { sender, recipient } = req.params;
+    const messages = await messagesService.fetchMessage(sender, recipient);
+
+    res.status(200).json(messages);
+  } catch {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 module.exports = {
-  postMessage
+  postMessage,
+  fetchMessages
 };
