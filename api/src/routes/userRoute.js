@@ -9,4 +9,6 @@ router.get("/login", userController.findUser);
 
 router.delete("/delete", userController.deleteUser);
 
+router.patch("/modify", userController.modifyUser);
+
 module.exports = router;
