@@ -16,8 +16,33 @@ const deleteUser = async (userEmail) => {
   return deletedUser;
 };
 
+
+
+const modifyUser = async(userEmail, newPassword) => {
+  try {
+    // update user password
+    const updatedUser = await User.findOneAndUpdate(
+      { email: userEmail },  // Search for email
+      { password: newPassword },  // update new password
+      { new: true }  
+    );
+
+    if (!updatedUser) {
+      throw new Error('User not found');
+    }
+
+    console.log('Updated user:', updatedUser);
+    return updatedUser;
+  } catch (err) {
+    console.error('Error while upgrading user:', err);
+    throw err; 
+  }
+}
+
+
 module.exports = {
   createUser,
   findUser,
-  deleteUser
+  deleteUser,
+  modifyUser
 };
