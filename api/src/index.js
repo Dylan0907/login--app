@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT;
 
 const userRouter = require("./routes/userRoute");
+const messagesRouter = require("./routes/messagesRoute");
 
 mongoose.connect(process.env.MONGODB_URI);
 const database = mongoose.connection;
@@ -30,6 +31,7 @@ app.use(
 
 //Endpoints
 app.use("/user", userRouter);
+app.use("/messages", messagesRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
