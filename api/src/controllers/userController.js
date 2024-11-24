@@ -23,7 +23,7 @@ const createUser = async (req, res) => {
 const findUser = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = userService.findUser(email);
+  const user = await userService.findUser(email);
   if (!user) {
     return res.status(400).json({ message: "Invalid email or password" });
   }
@@ -57,13 +57,12 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
 // modify user
 const modifyUser = async (req, res) => {
   try {
-    const { email, password, newPassword} = req.body;
+    const { email, password, newPassword } = req.body;
     const user = await userService.findUser(email);
-    if(!user){
+    if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
@@ -72,9 +71,12 @@ const modifyUser = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    
-    const modifiedUser = await userService.modifyUser(user.email, hashedPassword);
-  
+
+    const modifiedUser = await userService.modifyUser(
+      user.email,
+      hashedPassword
+    );
+
     res
       .status(200)
       .json({ message: "User modified succesfully", user: modifiedUser });
@@ -84,7 +86,6 @@ const modifyUser = async (req, res) => {
       .json({ message: "Error modifying user", error: error.message });
   }
 };
-
 
 module.exports = {
   createUser,
